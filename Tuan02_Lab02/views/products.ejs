@@ -1,0 +1,12 @@
+<a href="/products/add">Add</a>
+<a href="/logout">Logout</a>
+
+<ul>
+    <% products.forEach(p=> { %>
+        <li>
+                <%= p.name %> - <%= p.price %>
+                    <a href="/products/edit/<%= p.id %>">Edit</a>
+                    <a href="/products/delete/<%= p.id %>" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+        </li>
+        <% }) %>
+</ul>

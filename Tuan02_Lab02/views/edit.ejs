@@ -1,0 +1,9 @@
+<h1>Edit Product</h1>
+
+<form method="post" action="/products/edit/<%= product.id %>">
+	<input name="name" value="<%= product.name %>" placeholder="Name" required>
+	<input name="price" type="number" step="0.01" value="<%= product.price %>" placeholder="Price" required>
+	<button>Update</button>
+</form>
+
+<a href="/products">Back to products</a>
