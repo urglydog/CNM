@@ -15,26 +15,20 @@
                     <h3 class="mb-4 text-center text-warning">Chỉnh sửa sản phẩm</h3>
                     <form action="/products/edit/<%= product.id %>" method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label class="form-label text-muted">Mã sản phẩm (Không thể sửa)</label>
+                            <label class="form-label text-muted">Mã sản phẩm (ID)</label>
                             <input type="text" class="form-control bg-light" value="<%= product.id %>" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tên sản phẩm</label>
                             <input type="text" name="name" class="form-control" value="<%= product.name %>" required>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Giá</label>
-                                <input type="number" name="price" step="0.01" class="form-control" value="<%= product.price %>" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Số lượng</label>
-                                <input type="number" name="quantity" class="form-control" value="<%= product.quantity %>" required>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Giá ($)</label>
+                            <input type="number" name="price" step="0.01" class="form-control" value="<%= product.price %>" required>
                         </div>
                         <div class="mb-4 text-center">
                             <p class="small text-muted">Ảnh hiện tại:</p>
-                            <img src="<%= product.url_image %>" class="img-thumbnail mb-2" style="max-height: 100px;">
+                            <img src="<%= product.url_image || 'https://via.placeholder.com/100' %>" class="img-thumbnail mb-2" style="max-height: 100px;">
                             <input type="file" name="image" class="form-control" accept="image/*">
                         </div>
                         <div class="d-grid gap-2">

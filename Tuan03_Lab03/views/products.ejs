@@ -30,7 +30,6 @@
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
                             <th>Giá</th>
-                            <th>Số lượng</th>
                             <th class="text-center">Thao tác</th>
                         </tr>
                     </thead>
@@ -38,7 +37,7 @@
                         <% products.forEach(p => { %>
                             <tr>
                                 <td>
-                                    <img src="<%= p.url_image || 'https://via.placeholder.com/80' %>" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <img src="<%= p.url_image || 'https://via.placeholder.com/80' %>" class="rounded shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
                                 </td>
                                 <td>
                                     <strong><%= p.name %></strong><br>
@@ -47,10 +46,13 @@
                                 <td class="text-success fw-bold">$
                                     <%= p.price %>
                                 </td>
-                                <td><span class="badge bg-secondary"><%= p.quantity %></span></td>
                                 <td class="text-center">
-                                    <a href="/products/edit/<%= p.id %>" class="btn btn-sm btn-outline-warning text-dark me-1">Sửa</a>
-                                    <a href="/products/delete/<%= p.id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                                    <a href="/products/edit/<%= p.id %>" class="btn btn-sm btn-outline-warning text-dark me-1">
+                                        <i class="bi bi-pencil"></i> Sửa
+                                    </a>
+                                    <a href="/products/delete/<%= p.id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Xác nhận xóa sản phẩm?')">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </a>
                                 </td>
                             </tr>
                             <% }) %>
