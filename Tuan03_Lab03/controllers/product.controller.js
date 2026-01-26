@@ -2,13 +2,12 @@ const client = require('../config/db');
 const { ScanCommand, PutItemCommand, GetItemCommand, UpdateItemCommand, DeleteItemCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 
-const TableName = process.env.DYNAMODB_TABLE_NAME || "Products";
+// Ưu tiên lấy tên table từ file .env bạn đã cấu hình trên EC2
+const TableName = process.env.TABLE_PRODUCTS || "Products";
 
 exports.list = async(req, res) => {
     try {
-        const data = await client.send(new ScanCommand({
-            TableName: process.env.TABLE_PRODUCTS // Nó sẽ lấy chữ "Products" từ .env
-        }));
+        const data = await client.send(new ScanCommand({ TableName }));
         const products = data.Items.map(item => unmarshall(item));
         res.render('products', { products });
     } catch (err) { res.status(500).send(err.message); }
@@ -17,40 +16,60 @@ exports.list = async(req, res) => {
 exports.addPage = (req, res) => res.render('add');
 
 exports.add = async(req, res) => {
-    const { id, name, price } = req.body; // DynamoDB cần ID thủ công
-    const params = {
-        TableName,
-        Item: marshall({ id, name, price: Number(price) })
-    };
-    await client.send(new PutItemCommand(params));
-    res.redirect('/products');
+    try {
+        const { id, name, price } = req.body;
+        
+        // Lấy URL ảnh từ S3 do multer-s3 cung cấp
+        // Nếu không có ảnh thì để chuỗi rỗng
+        const url_image = req.file ? req.file.location : ""; 
+
+        const params = {
+            TableName,
+            Item: marshall({ 
+                id, 
+                name, 
+                price: Number(price),
+                url_image: url_image // Lưu link ảnh S3 vào database
+            })
+        };
+        await client.send(new PutItemCommand(params));
+        res.redirect('/products');
+    } catch (err) { res.status(500).send(err.message); }
 };
 
 exports.editPage = async(req, res) => {
-    const params = { TableName, Key: marshall({ id: req.params.id }) };
-    const { Item } = await client.send(new GetItemCommand(params));
-    res.render('edit', { product: unmarshall(Item) });
+    try {
+        const params = { TableName, Key: marshall({ id: req.params.id }) };
+        const { Item } = await client.send(new GetItemCommand(params));
+        if (!Item) return res.status(404).send("Sản phẩm không tồn tại");
+        res.render('edit', { product: unmarshall(Item) });
+    } catch (err) { res.status(500).send(err.message); }
 };
 
 exports.update = async(req, res) => {
     try {
-        // req.body bây giờ sẽ có giá trị nhờ middleware upload.single('image') ở route
         const { name, price } = req.body;
         const id = req.params.id;
 
-        // Xử lý URL ảnh: nếu có file mới thì dùng URL mới, nếu không giữ URL cũ
-        // Lưu ý: Bạn sẽ cần thêm logic upload S3 ở đây để có URL thực tế
-        let imageUrl = req.body.current_url_image;
+        // Cấu hình biểu thức update cơ bản
+        let updateExpression = "set #n = :name, price = :price";
+        let expressionAttributeValues = {
+            ":name": name,
+            ":price": Number(price)
+        };
+
+        // Nếu người dùng có upload ảnh mới, thêm trường url_image vào biểu thức
+        if (req.file) {
+            updateExpression += ", url_image = :url";
+            expressionAttributeValues[":url"] = req.file.location;
+        }
 
         const params = {
             TableName,
             Key: marshall({ id }),
-            UpdateExpression: "set #n = :name, price = :price",
+            UpdateExpression: updateExpression,
             ExpressionAttributeNames: { "#n": "name" },
-            ExpressionAttributeValues: marshall({
-                ":name": name,
-                ":price": Number(price)
-            })
+            ExpressionAttributeValues: marshall(expressionAttributeValues)
         };
 
         await client.send(new UpdateItemCommand(params));
@@ -62,6 +81,8 @@ exports.update = async(req, res) => {
 };
 
 exports.delete = async(req, res) => {
-    await client.send(new DeleteItemCommand({ TableName, Key: marshall({ id: req.params.id }) }));
-    res.redirect('/products');
+    try {
+        await client.send(new DeleteItemCommand({ TableName, Key: marshall({ id: req.params.id }) }));
+        res.redirect('/products');
+    } catch (err) { res.status(500).send(err.message); }
 };
