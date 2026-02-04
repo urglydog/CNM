@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa sản phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-3">
+        <a href="/products" class="btn btn-sm btn-outline-secondary mb-3">&larr; Trang chủ</a>
+    </div>
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h3 class="mb-4 text-center text-warning">Chỉnh sửa sản phẩm</h3>
+                    <form action="/products/edit/<%= product.id %>" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Mã sản phẩm (ID)</label>
+                            <input type="text" class="form-control bg-light" value="<%= product.id %>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên sản phẩm</label>
+                            <input type="text" name="name" class="form-control" value="<%= product.name %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Giá ($)</label>
+                            <input type="number" name="price" step="0.01" class="form-control" value="<%= product.price %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số lượng</label>
+                            <input type="number" name="quantity" class="form-control" min="0" value="<%= product.quantity || 0 %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục</label>
+                            <select name="categoryId" class="form-select" required>
+                                <% categories.forEach(c => { %>
+                                    <option value="<%= c.categoryId %>" <%= c.categoryId === product.categoryId ? 'selected' : '' %>><%= c.name %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-4 text-center">
+                            <p class="small text-muted">Ảnh hiện tại:</p>
+                            <img src="<%= product.url_image || 'https://via.placeholder.com/100' %>" class="img-thumbnail mb-2" style="max-height: 100px;">
+                            <input type="file" name="image" class="form-control" accept="image/*">
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">Cập nhật</button>
+                            <a href="/products" class="btn btn-light">Hủy</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

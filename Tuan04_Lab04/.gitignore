@@ -1,0 +1,21 @@
+# Chặn thư mục thư viện (Rất nặng)
+node_modules/
+
+# Chặn file cấu hình bảo mật AWS
+.env
+*.csv
+*.pem
+
+# Chặn các file báo cáo cá nhân (Word)
+# *.docx
+
+# Chặn file tạm của hệ thống
+.DS_Store
+Thumbs.db
+~WRL*.tmp
+
+# Cho phép file Word báo cáo
+# !22667051_NguyenChiThien_Lab3.docx
+
+# Chặn các file tạm của Word (thường bắt đầu bằng ~$)
+~$*.docx
