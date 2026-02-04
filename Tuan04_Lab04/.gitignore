@@ -14,6 +14,8 @@ node_modules/
 Thumbs.db
 ~WRL*.tmp
 
+
+*.docx
 # Cho phép file Word báo cáo
 # !22667051_NguyenChiThien_Lab3.docx
 
