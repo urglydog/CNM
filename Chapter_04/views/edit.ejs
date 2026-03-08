@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        .current-image {
+            margin-top: 10px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">&larr; Quay lại danh sách</a>
+        <h1>Chỉnh sửa sản phẩm</h1>
+        <form action="/edit/<%= product.id %>" method="post" enctype="multipart/form-data">
+            <label>Tên sản phẩm</label>
+            <input type="text" name="name" value="<%= product.name %>" required>
+
+            <label>Giá</label>
+            <input type="number" name="price" value="<%= product.price %>" min="0" step="1000">
+
+            <label>Ảnh hiện tại</label>
+            <div class="current-image">
+                <img src="<%= product.url_image %>" alt="Ảnh hiện tại" width="150">
+            </div>
+
+            <label>Chọn ảnh mới (nếu muốn thay)</label>
+            <input type="file" name="image">
+
+            <input type="hidden" name="currentImage" value="<%= product.url_image %>">
+
+            <button type="submit">Lưu thay đổi</button>
+        </form>
+    </div>
+</body>
+</html>
