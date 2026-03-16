@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Sản Phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+    <h2>Chi Tiết Sản Phẩm</h2>
+    <div class="card mt-3" style="max-width: 500px;">
+        <img src="<%= product.url_image %>" class="card-img-top" alt="<%= product.name %>">
+        <div class="card-body">
+            <h5 class="card-title">Mã SP:
+                <%= product.id %>
+            </h5>
+            <h4 class="text-primary">
+                <%= product.name %>
+            </h4>
+            <p class="card-text"><strong>Giá:</strong>
+                <%= product.price.toLocaleString() %> VNĐ</p>
+            <p class="card-text"><strong>Tồn kho:</strong>
+                <%= product.unit_in_stock %>
+            </p>
+            <p class="card-text text-break"><strong>URL Image:</strong>
+                <%= product.url_image %>
+            </p>
+            <a href="/" class="btn btn-secondary">Quay lại</a>
+            <a href="/edit/<%= product.id %>" class="btn btn-warning">Sửa</a>
+        </div>
+    </div>
+</body>
+
+</html>
