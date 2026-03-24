@@ -1,0 +1,30 @@
+{
+  "name": "thi-thu-tech",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:express": "nodemon app.js",
+    "build": "next build",
+    "start": "next start",
+    "start:express": "node app.js",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1014.0",
+    "@aws-sdk/client-s3": "^3.1014.0",
+    "@aws-sdk/lib-dynamodb": "^3.1014.0",
+    "dotenv": "^16.6.1",
+    "ejs": "^5.0.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "next": "16.2.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.2.1",
+    "nodemon": "^3.1.10"
+  }
+}

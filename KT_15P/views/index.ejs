@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thi Thu Tech</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 24px;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Danh sach Item tu DynamoDB</h1>
+    <% if (!items.length) { %>
+      <p>Chua co du lieu hoac chua cau hinh bang.</p>
+    <% } else { %>
+      <ul>
+        <% items.forEach(function(item) { %>
+          <li><%= JSON.stringify(item) %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </body>
+</html>
